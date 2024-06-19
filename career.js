@@ -54,8 +54,9 @@ function generateHTMLForCategories(categories) {
                                     <div class="kaj-cl">`;
 
         categories[category].forEach(job => {
+            const jobLink = `https://merantix-momentum.jobs.personio.com/job/${job.id}?language=en&display=en`;
             html += `<div j-item="" class="kaj-cl-item fade-normal" style="will-change: opacity, transform; opacity: 1; transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                        <a j-link="" href="#" target="_blank" class="kaj-link w-inline-block">
+                        <a j-link="" href="${jobLink}" target="_blank" class="kaj-link w-inline-block">
                             <div class="kaj-left">
                                 <div class="text-style-allcaps">
                                     <h3 j-title="" class="heading-style-h4 is-job-title">${job.title}</h3>
@@ -91,7 +92,8 @@ function generateHTMLForCategories(categories) {
     return html;
 }
 
-const url = 'https://merantix.jobs.personio.com/xml';
+
+const url = 'https://merantix-momentum.jobs.personio.com/xml';
 
 fetchXMLData(url)
     .then(xml => {
