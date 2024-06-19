@@ -43,7 +43,7 @@ function generateHTMLForCategories(categories) {
     let html = '';
 
     for (let category in categories) {
-        html += `<section id="engineering-team" j-wrapper="" class="section-kaj is-first">
+        html += `<section id="${category.replace(/\s+/g, '-').toLowerCase()}" j-wrapper="" class="section-kaj is-first">
                     <div class="padding-global">
                         <div class="container-large">
                             <h1 j-category="" class="heading-style-h2 fade-normal" style="will-change: opacity, transform; opacity: 1; transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
@@ -92,6 +92,24 @@ function generateHTMLForCategories(categories) {
     return html;
 }
 
+function generateSectionLinks(categories) {
+    let linksHtml = `<div j-links-holder="" id="w-node-e69ea543-73c7-c57c-fcf2-3580d765b646-507b3831" class="kaf-links-wrapper">
+                        <div class="kaf-dd-spacer"></div>`;
+    
+    for (let category in categories) {
+        const sectionId = category.replace(/\s+/g, '-').toLowerCase();
+        linksHtml += `<div j-item-filter="" id="w-node-_42ebdb15-d334-1e50-707a-2ae2c3db8808-507b3831" class="kaf-links">
+                        <a href="#${sectionId}" j-section-link="" class="kaf-link-block w-inline-block">
+                            <div j-category="">${category}</div>
+                        </a>
+                      </div>`;
+    }
+
+    linksHtml += `</div>`;
+    return linksHtml;
+}
+
+
 
 const url = 'https://merantix-momentum.jobs.personio.com/xml';
 
@@ -99,8 +117,11 @@ fetchXMLData(url)
     .then(xml => {
         const categories = processXML(xml);
         const html = generateHTMLForCategories(categories);
+        const linksHtml = generateSectionLinks(categories);
         document.getElementById('job-listings').innerHTML = html; // Assuming there's a div with id 'job-listings' to hold the content
+        document.getElementById('section-links').innerHTML = linksHtml; // Assuming there's a div with id 'section-links' to hold the section links
     })
     .catch(error => {
         console.error('Error fetching or processing XML data:', error);
     });
+
